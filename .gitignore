@@ -1,0 +1,67 @@
+# ===== Python 编译产物 =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# ===== 虚拟环境 / 依赖 =====
+.venv/
+venv/
+env/
+node_modules/
+
+# ===== 构建产物 =====
+/build/
+/build_output/
+/dist/
+*.egg-info/
+*.zip
+
+# ===== 数据库 / 运行数据 =====
+*.db
+*.sqlite3
+*.sqlite
+/data/
+
+# ===== 日志 =====
+*.log
+
+# ===== IDE / 测试缓存 =====
+.idea/
+.vscode/
+.pytest_cache/
+.mypy_cache/
+
+# ===== 调试产物目录 =====
+/dev/
+
+# ===== 敏感 / 本地配置（含密码、token、WAF 状态、浏览器上下文、用户偏好）=====
+# 仅保留业务配置 game_platform.json 和 *.example.json 模板
+config/*.json
+!config/game_platform.json
+!config/*.example.json
+config/*.db
+
+# ===== WAF 状态 / 浏览器签名缓存 =====
+pxb7/pxb7_waf_state.json
+src/services/panzhi_folder/pzds_browser_sign_cache/
+
+# ===== 临时 / 调试脚本 =====
+src/services/panzhi_folder/_*.py
+src/services/panzhi_folder/browser_context_capture.js
+src/services/panzhi_folder/cdp_*.js
+/_mp_proto.py
+/check_time.py
+/cover_download.bin
+/failed_sample.txt
+/open_pz_9222_chrome.bat
+/refresh_waf.py
+.tmp_*
+tmp_*
+
+# ===== Excel 估价表（大文件 / 商业试用版）=====
+*.xlsx
+
+# ===== 其它 =====
+.codex/

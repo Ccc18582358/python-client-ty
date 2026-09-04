@@ -1,0 +1,16 @@
+{
+  "pageUrl": "https://www.pzds.com/",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+  "cookie": "acw_tc=...; ssxmod_itna=...; ssxmod_itna2=...",
+  "cookies": "acw_tc=...; ssxmod_itna=...; ssxmod_itna2=...",
+  "deviceId": "ef6108b8d0b34fbe8f150d8b59ab9d5d",
+  "globalId": "4240c3c6c1bc48dcb35490aa17850088",
+  "PZid": "187494449",
+  "localStorage": {
+    "_waf_bd8ce2ce37": "value||expire_ms",
+    "_waf_a86dfdc5f2": "value||expire_ms",
+    "__00b204e9800998__": "value||expire_ms",
+    "api.pzds.com_dySig": "true||expire_ms"
+  },
+  "sessionStorage": {}
+}

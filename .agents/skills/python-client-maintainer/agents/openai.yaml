@@ -1,0 +1,7 @@
+interface:
+  display_name: "Python Client 项目维护专家"
+  short_description: "基于运行证据定位、修复并验证扫号估价桌面客户端问题"
+  default_prompt: "Use $python-client-maintainer to diagnose and fix this project with evidence."
+policy:
+  allow_implicit_invocation: true
+
