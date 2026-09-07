@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "<string>", line 8, in <module>
+  File "C:\PythonProduct\tongyong\python-client-ty\.venv\lib\site-packages\formulas\excel\__init__.py", line 600, in finish
+    self.complete()
+  File "C:\PythonProduct\tongyong\python-client-ty\.venv\lib\site-packages\formulas\excel\__init__.py", line 458, in complete
+    with tqdm.tqdm(total=len(stack)) as pbar:
+  File "C:\PythonProduct\tongyong\python-client-ty\.venv\lib\site-packages\tqdm\std.py", line 1103, in __init__
+    self.refresh(lock_args=self.lock_args)
+  File "C:\PythonProduct\tongyong\python-client-ty\.venv\lib\site-packages\tqdm\std.py", line 1355, in refresh
+    self.display()
+  File "C:\PythonProduct\tongyong\python-client-ty\.venv\lib\site-packages\tqdm\std.py", line 1503, in display
+    self.sp(self.__str__() if msg is None else msg)
+  File "C:\PythonProduct\tongyong\python-client-ty\.venv\lib\site-packages\tqdm\std.py", line 457, in print_status
+    fp_write('\r' + s + (' ' * max(last_len[0] - len_s, 0)))
+  File "C:\PythonProduct\tongyong\python-client-ty\.venv\lib\site-packages\tqdm\std.py", line 450, in fp_write
+    fp.write(str(s))
+  File "C:\PythonProduct\tongyong\python-client-ty\.venv\lib\site-packages\tqdm\utils.py", line 123, in __getattr__
+    return getattr(self._wrapped, name)
+AttributeError: 'NoneType' object has no attribute 'write'

@@ -19,6 +19,18 @@ import os
 import multiprocessing
 from pathlib import Path
 
+# ★ 冻结的 windowed exe（console=False）里 sys.stdout / sys.stderr 为 None，
+#   print / logging.StreamHandler / tqdm 等都会往它们写 → None.write 崩溃。
+#   在最早期（任何 import 之前）把 None 的 stdout/stderr 重定向到 devnull：
+#   - 主进程：本次 import 时执行；
+#   - spawn 出来的估价 worker：会重新执行本模块顶部，同样被兜住；
+#   - UTF-8 + errors=replace：避免默认 GBK 编码遇到 ✓ 等字符时 UnicodeEncodeError。
+#   （开发环境从终端跑时 stdout/stderr 非 None，此段自然跳过，不影响终端输出。）
+if sys.stdout is None:
+    sys.stdout = open(os.devnull, "w", encoding="utf-8", errors="replace")
+if sys.stderr is None:
+    sys.stderr = open(os.devnull, "w", encoding="utf-8", errors="replace")
+
 # 让 import 走 python-client/ 根
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 

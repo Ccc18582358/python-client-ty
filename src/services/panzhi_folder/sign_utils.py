@@ -17,6 +17,7 @@
 
 import hashlib
 import json
+import os
 import random
 import subprocess
 import tempfile
@@ -97,6 +98,9 @@ def generate_sign(
                 errors="replace",
                 timeout=30,
                 check=False,
+                # ★ 冻结的 GUI 程序（console=False）里子进程是控制台程序（node.exe），
+                #   不设此标志会弹出一个一闪而过的黑窗。Windows 下用 CREATE_NO_WINDOW 隐藏。
+                creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
             )
             if completed.returncode == 0 and completed.stdout.strip():
                 result = json.loads(completed.stdout)

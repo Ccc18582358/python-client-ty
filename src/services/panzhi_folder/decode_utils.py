@@ -127,6 +127,9 @@ def run_decode_runner(
             errors="replace",
             timeout=timeout,
             check=False,
+            # ★ 冻结的 GUI 程序（console=False）里子进程是控制台程序（node.exe），
+            #   不设此标志会弹出一个一闪而过的黑窗。Windows 下用 CREATE_NO_WINDOW 隐藏。
+            creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
         )
         if completed.returncode != 0:
             stderr = (completed.stderr or "").strip()
@@ -289,6 +292,9 @@ def run_challenge(
             errors="replace",
             timeout=timeout,
             check=False,
+            # ★ 冻结的 GUI 程序（console=False）里子进程是控制台程序（node.exe），
+            #   不设此标志会弹出一个一闪而过的黑窗。Windows 下用 CREATE_NO_WINDOW 隐藏。
+            creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
         )
         if completed.returncode != 0:
             stderr = (completed.stderr or "").strip()

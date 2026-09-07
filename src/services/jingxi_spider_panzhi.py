@@ -1938,6 +1938,14 @@ class PanzhiAccountCrawler:
             except Exception as e:
                 return None, f"sign_failed:{e}"
 
+            # ★ 诊断：确认签名走 WASM(v18) 还是回退到 MD5，以及 curl_cffi 是否生效
+            logger.info(
+                "[panzhi] sign=%s curl_cffi=%s frozen=%s",
+                signature.get("X-Sign-Version") or "md5",
+                HAS_CURL_CFFI,
+                getattr(sys, "frozen", False),
+            )
+
             # 4. headers
             headers = self._build_headers(signature)
             cookie_str = _cookie_header(self._waf_cookies)
@@ -2035,7 +2043,25 @@ class PanzhiAccountCrawler:
                     logger.info("[panzhi] list page=%d 检测到新 waf_bd，刷新后重试", page)
                     self._waf_bd = next_bd
                     continue
-                logger.warning("[panzhi] list page=%d 非 JSON 响应 (len=%d)", page, len(text))
+                # ★ 空响应（len=0）：代理 IP 被盼之静默丢弃时，服务端既不返回验证码/挑战也不返回 JSON，
+                #   而是直接返回空 body。此时重试同一 IP 无意义 → 切代理 + 重绑 WAF 状态后再试。
+                if len(text) == 0 and attempt < max_attempts - 1:
+                    logger.warning(
+                        "[panzhi] list page=%d 空响应(len=0, status=%s)，疑似代理 IP 被丢弃，切换代理重试",
+                        page, getattr(resp, "status_code", "?"),
+                    )
+                    new_proxies = self._rotate_proxy_after_captcha(reason=f"list_p{page}_empty_a{attempt+1}")
+                    if new_proxies is not None:
+                        time.sleep(2.0)
+                        continue
+                    last_err = "empty_body"
+                    continue
+                logger.warning(
+                    "[panzhi] list page=%d 非 JSON 响应 (len=%d, status=%s, ct=%s)",
+                    page, len(text),
+                    getattr(resp, "status_code", "?"),
+                    (resp.headers.get("content-type") if hasattr(resp, "headers") else "?"),
+                )
                 last_err = "non_json"
                 continue
 

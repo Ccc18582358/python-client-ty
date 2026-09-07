@@ -34,7 +34,20 @@ from __future__ import annotations
 import logging
 import multiprocessing
 import os
+import sys
 from typing import Dict, Optional
+
+# ★ 冻结的 windowed exe（console=False）里 sys.stdout / sys.stderr 为 None。
+#   formulas 编译估价模型时用 tqdm 进度条往 stderr 写 → None.write 崩溃
+#   （AttributeError: 'NoneType' object has no attribute 'write'）。
+#   主入口 main.py 顶部已做统一兜底（UTF-8 devnull），这里再兜一次作为防御：
+#   - 用 UTF-8 + errors=replace，避免 open(os.devnull) 默认 GBK 编码
+#     在写 ✓ 等字符时抛 UnicodeEncodeError（曾导致 handleError 打印 traceback 崩溃）。
+#   主进程和 spawn 出来的 worker 都会 import 本模块，两个进程都能被兜住。
+if sys.stdout is None:
+    sys.stdout = open(os.devnull, "w", encoding="utf-8", errors="replace")
+if sys.stderr is None:
+    sys.stderr = open(os.devnull, "w", encoding="utf-8", errors="replace")
 
 logger = logging.getLogger(__name__)
 
